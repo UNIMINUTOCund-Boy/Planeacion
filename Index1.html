@@ -24,6 +24,12 @@
     --f6:#4A4E9E;
     --f7:#C23B6B;
     --f8:#4C7A3D;
+
+    --i1:#1F3864;
+    --i2:#1E8C74;
+    --i3:#4C7A3D;
+    --i4:#B0295E;
+    --i5:#B0742E;
   }
   *{box-sizing:border-box;}
   html{scroll-behavior:smooth;}
@@ -345,8 +351,8 @@
   .toggle-frentes svg{width:13px; height:13px; flex-shrink:0; transition:transform .2s ease;}
   .toggle-frentes b{color:var(--ink);}
   .card.open .toggle-frentes svg, .pe-card.open .toggle-frentes svg{transform:rotate(180deg);}
-  .frentes-panel{display:none; margin-bottom:14px;}
-  .card.open .frentes-panel{display:block;}
+  .frentes-panel{max-height:0; overflow:hidden; transition:max-height .45s ease, margin .45s ease; margin-bottom:0;}
+  .card.open .frentes-panel{max-height:900px; margin-bottom:14px;}
   .frentes-disclaimer{
     font-size:10.5px;
     font-style:italic;
@@ -375,7 +381,7 @@
   .frente-row .f-bar i{display:block; height:100%; border-radius:4px;}
   .frente-row .f-count{font-weight:700; color:var(--ink); text-align:right; min-width:16px;}
 
-  .pe-card.open .frentes-panel{display:block;}
+  .pe-card.open .frentes-panel{max-height:1600px; margin-bottom:14px;}
   .pe-panel-spacer{margin-top:18px;}
   .apuestas-title{
     font-size:12.5px;
@@ -408,6 +414,133 @@
   }
   .apuesta-row strong{font-size:13px; color:var(--ink);}
   .apuesta-row p{font-size:12px; color:var(--ink-soft); margin:3px 0 0; line-height:1.4;}
+
+  /* ============ INICIATIVAS DE TRANSFORMACIÓN ============ */
+  #iniciativas-transformacion{--accent:var(--i1);}
+  .ini-grid{
+    display:grid;
+    grid-template-columns:1fr;
+    gap:18px;
+    padding-bottom:48px;
+  }
+  .ini-card{
+    background:#fff;
+    border:1px solid rgba(32,36,43,0.08);
+    border-radius:14px;
+    padding:24px 26px;
+    position:relative;
+    overflow:hidden;
+    box-shadow:0 2px 10px rgba(20,20,20,0.04);
+    transition:box-shadow .2s ease, transform .2s ease;
+  }
+  .ini-card::before{
+    content:"";
+    position:absolute; left:0; top:0; bottom:0; width:6px;
+    background:var(--accent);
+  }
+  .ini-card:hover{box-shadow:0 10px 26px rgba(20,20,20,0.09); transform:translateY(-2px);}
+  .ini-top{
+    display:grid;
+    grid-template-columns:auto 1fr auto;
+    gap:16px;
+    align-items:center;
+    margin-bottom:14px;
+  }
+  .ini-badge{
+    width:44px; height:44px;
+    border-radius:50%;
+    background:var(--accent);
+    color:#fff;
+    font-size:19px;
+    font-weight:700;
+    display:flex; align-items:center; justify-content:center;
+    flex-shrink:0;
+  }
+  .ini-categoria{
+    font-size:11px;
+    font-weight:700;
+    text-transform:uppercase;
+    letter-spacing:0.06em;
+    color:var(--accent);
+    margin-bottom:2px;
+  }
+  .ini-top h3{font-size:19px; margin:0; color:var(--ink); line-height:1.25;}
+  .ini-icon{width:34px; height:34px; color:var(--accent); opacity:0.55; flex-shrink:0;}
+  .ini-icon svg{width:100%; height:100%;}
+  .ini-tags{display:flex; flex-wrap:wrap; gap:7px; margin-bottom:14px;}
+  .ini-tag{
+    font-size:11px;
+    font-weight:700;
+    padding:5px 11px;
+    border-radius:999px;
+    background:color-mix(in srgb, var(--accent) 12%, #fff);
+    color:var(--accent);
+    border:1px solid color-mix(in srgb, var(--accent) 35%, #fff);
+  }
+  .ini-tag-motor{background:var(--paper-2); color:var(--ink-soft); border-color:rgba(32,36,43,0.12);}
+  .ini-desc{font-size:13.5px; line-height:1.6; color:var(--ink-soft); margin:0 0 16px; text-align:justify;}
+
+  .ini-toggle{margin:0 0 4px;}
+  .ini-panel{max-height:0; overflow:hidden; transition:max-height .5s ease, margin .5s ease; margin-top:0;}
+  .ini-card.open .ini-panel{max-height:2400px; margin-top:14px;}
+  .ini-block{margin-bottom:16px;}
+  .ini-block:last-child{margin-bottom:0;}
+  .ini-block-title{
+    font-size:11.5px;
+    font-weight:700;
+    text-transform:uppercase;
+    letter-spacing:0.05em;
+    color:var(--accent);
+    margin-bottom:6px;
+  }
+  .ini-block p{font-size:13px; line-height:1.6; color:var(--ink-soft); margin:0; text-align:justify;}
+  .ini-acciones{list-style:none; margin:0; padding:0; display:grid; gap:8px;}
+  .ini-acciones li{
+    display:flex; align-items:flex-start; gap:10px;
+    font-size:13px; color:var(--ink); line-height:1.45;
+  }
+  .ini-num{
+    flex-shrink:0;
+    width:20px; height:20px;
+    border-radius:50%;
+    background:var(--paper-2);
+    color:var(--accent);
+    font-size:11px; font-weight:700;
+    display:flex; align-items:center; justify-content:center;
+    margin-top:1px;
+  }
+  .ini-metas{list-style:none; margin:0; padding:0; display:grid; grid-template-columns:1fr 1fr; gap:8px 14px;}
+  .ini-metas li{
+    font-size:12.5px; font-weight:600; color:var(--ink);
+    padding:8px 10px;
+    background:var(--paper-2);
+    border-radius:7px;
+    border-left:3px solid var(--accent);
+  }
+  .ini-frentes-tags{display:flex; flex-wrap:wrap; gap:7px;}
+  .ini-frente-tag{
+    font-size:11px;
+    padding:5px 10px;
+    border-radius:6px;
+    background:var(--paper-2);
+    color:var(--ink-soft);
+    font-weight:600;
+  }
+  .ini-priority{
+    background:color-mix(in srgb, var(--accent) 8%, #fff);
+    border:1px dashed color-mix(in srgb, var(--accent) 40%, #fff);
+    border-radius:9px;
+    padding:12px 14px;
+    margin-top:16px;
+  }
+  .ini-priority strong{font-size:12.5px; color:var(--accent); display:block; margin-bottom:4px;}
+  .ini-priority p{font-size:12.5px; color:var(--ink-soft); margin:0; line-height:1.5;}
+
+  @media (max-width:640px){
+    .ini-metas{grid-template-columns:1fr;}
+    .ini-top{grid-template-columns:auto 1fr;}
+    .ini-icon{display:none;}
+  }
 
   #plan-sede{--accent:var(--gold);}
   #centros-universitarios{--accent:var(--navy);}
@@ -520,6 +653,7 @@
 <div class="navbar">
   <div class="navbar-inner">
     <a class="pill" href="#plan-sede"><span class="dot"></span>Plan de la Sede</a>
+    <a class="pill" href="#iniciativas-transformacion"><span class="dot"></span>Iniciativas de Transformación</a>
     <a class="pill" href="#centros-universitarios"><span class="dot"></span>Centros Universitarios</a>
     <a class="pill" href="#centros-tutoriales"><span class="dot"></span>Centros Tutoriales</a>
   </div>
@@ -541,74 +675,292 @@
     <div class="pe-panel-spacer">
       <button class="toggle-frentes" onclick="this.closest('.pe-card').classList.toggle('open')">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
-        Ver acciones por Frente y apuestas estratégicas <b>(89)</b>
+        Ver Frentes PDI activados y Apuestas Estratégicas
       </button>
       <div class="frentes-panel">
-        <div class="frentes-disclaimer">Cifras de ejemplo para ilustrar el componente — deben actualizarse con los datos reales del plan.</div>
+        <div class="frentes-disclaimer">Frentes del PDI activados por las 5 Iniciativas de Transformación (fuente: Mapa de Iniciativas de Transformación, 2026).</div>
         
           <div class="frente-row">
             <span class="f-name">Identidad Misional</span>
-            <span class="f-bar"><i style="width:30%;background:var(--f1)"></i></span>
-            <span class="f-count">6</span>
+            <span class="f-bar"><i style="width:0%;background:var(--f1)"></i></span>
+            <span class="f-count">0</span>
           </div>
           <div class="frente-row">
             <span class="f-name">Innovación Académica</span>
-            <span class="f-bar"><i style="width:85%;background:var(--f2)"></i></span>
-            <span class="f-count">17</span>
+            <span class="f-bar"><i style="width:67%;background:var(--f2)"></i></span>
+            <span class="f-count">2</span>
           </div>
           <div class="frente-row">
             <span class="f-name">Investigación</span>
-            <span class="f-bar"><i style="width:75%;background:var(--f3)"></i></span>
-            <span class="f-count">15</span>
+            <span class="f-bar"><i style="width:100%;background:var(--f3)"></i></span>
+            <span class="f-count">3</span>
           </div>
           <div class="frente-row">
             <span class="f-name">Centros Universitarios</span>
-            <span class="f-bar"><i style="width:70%;background:var(--f4)"></i></span>
-            <span class="f-count">14</span>
+            <span class="f-bar"><i style="width:67%;background:var(--f4)"></i></span>
+            <span class="f-count">2</span>
           </div>
           <div class="frente-row">
             <span class="f-name">UNIMINUTO Virtual</span>
-            <span class="f-bar"><i style="width:20%;background:var(--f5)"></i></span>
-            <span class="f-count">4</span>
+            <span class="f-bar"><i style="width:0%;background:var(--f5)"></i></span>
+            <span class="f-count">0</span>
           </div>
           <div class="frente-row">
             <span class="f-name">Sistema Universitario Digital</span>
-            <span class="f-bar"><i style="width:40%;background:var(--f6)"></i></span>
-            <span class="f-count">8</span>
+            <span class="f-bar"><i style="width:67%;background:var(--f6)"></i></span>
+            <span class="f-count">2</span>
           </div>
           <div class="frente-row">
             <span class="f-name">Mercadeo</span>
-            <span class="f-bar"><i style="width:75%;background:var(--f7)"></i></span>
-            <span class="f-count">15</span>
+            <span class="f-bar"><i style="width:67%;background:var(--f7)"></i></span>
+            <span class="f-count">2</span>
           </div>
           <div class="frente-row">
             <span class="f-name">Sostenibilidad</span>
-            <span class="f-bar"><i style="width:50%;background:var(--f8)"></i></span>
-            <span class="f-count">10</span>
+            <span class="f-bar"><i style="width:67%;background:var(--f8)"></i></span>
+            <span class="f-count">2</span>
           </div>
         <div class="apuestas-title">Apuestas Estratégicas del Plan</div>
         
           <div class="apuesta-row">
             <span class="a-badge">1</span>
-            <div><strong>Voces que Transforma</strong><p>Fortalecimiento de la comunicación y el posicionamiento de marca de la Sede.</p></div>
+            <div><strong>Excelencia Académica</strong><p>Calidad educativa, acreditación de programas y experiencia estudiantil memorable.</p></div>
           </div>
           <div class="apuesta-row">
             <span class="a-badge">2</span>
-            <div><strong>Apuesta Estratégica II</strong><p>Nombre y alcance pendientes de definir con la información oficial del PDI.</p></div>
+            <div><strong>Expansión y Cobertura</strong><p>Posicionamiento de marca, comunicación estratégica y crecimiento de la presencia territorial.</p></div>
           </div>
           <div class="apuesta-row">
             <span class="a-badge">3</span>
-            <div><strong>Apuesta Estratégica III</strong><p>Nombre y alcance pendientes de definir con la información oficial del PDI.</p></div>
+            <div><strong>Sostenibilidad Integral</strong><p>Sostenibilidad financiera, física y ambiental de la Sede.</p></div>
           </div>
           <div class="apuesta-row">
             <span class="a-badge">4</span>
-            <div><strong>Apuesta Estratégica IV</strong><p>Nombre y alcance pendientes de definir con la información oficial del PDI.</p></div>
+            <div><strong>Ecosistema Digital</strong><p>Transformación digital de procesos académicos y administrativos.</p></div>
           </div>
           <div class="apuesta-row">
             <span class="a-badge">5</span>
-            <div><strong>Apuesta Estratégica V</strong><p>Nombre y alcance pendientes de definir con la información oficial del PDI.</p></div>
+            <div><strong>Talento Humano <em>(eje transversal)</em></strong><p>Eje transversal a las demás iniciativas — no se gestiona como iniciativa independiente en este ciclo.</p></div>
           </div>
       </div></div>
+  </div>
+</div>
+
+<!-- ============ SECCIÓN NUEVA: INICIATIVAS DE TRANSFORMACIÓN ============ -->
+<div class="section" id="iniciativas-transformacion">
+  <div class="section-head">
+    <div class="section-icon"><svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M32 6 L38 24 L57 24 L42 35 L48 54 L32 42 L16 54 L22 35 L7 24 L26 24 Z"/></svg></div>
+    <div>
+      <div class="section-num">De las Apuestas a la acción</div>
+      <h2>Iniciativas de Transformación</h2>
+      <div class="section-desc">5 iniciativas habilitadoras que traducen las Apuestas Estratégicas de Sede en acciones concretas. Cada una es un motor de desarrollo distinto: haz clic para ver su motivación, objetivo, acciones habilitadoras y metas clave a 2030.</div>
+    </div>
+    <div class="section-count">5<span>Iniciativas</span></div>
+  </div>
+  <div class="ini-grid">
+      <div class="ini-card" id="ini-1" style="--accent:var(--i1)">
+        <div class="ini-top">
+          <div class="ini-badge">1</div>
+          <div>
+            <div class="ini-categoria">Calidad Académica & Experiencia Estudiantil</div>
+            <h3>Servicio, Experiencia y Permanencia</h3>
+          </div>
+          <div class="ini-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10 12 5 2 10l10 5 10-5Z"/><path d="M6 12v5c0 1.5 3 3 6 3s6-1.5 6-3v-5"/></svg></div>
+        </div>
+        <div class="ini-tags"><span class="ini-tag">Excelencia Académica</span><span class="ini-tag">Ecosistema Digital</span><span class="ini-tag ini-tag-motor">Motor: Calidad · Impacto</span></div>
+        <p class="ini-desc">Articula la ruta de acreditación en Alta Calidad (CNA) de los programas de la Sede con estrategias de permanencia, vinculación a investigación, seguimiento a egresados, inmersiones sociales "Con los Pies en la Tierra" y consolidación del modelo 4.0. Su columna vertebral es el índice de experiencia NPS y el cumplimiento de indicadores de gestión de procesos académicos.</p>
+        <button class="toggle-frentes ini-toggle" onclick="this.closest('.ini-card').classList.toggle('open')">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+          Ver detalle completo de la iniciativa
+        </button>
+        <div class="ini-panel">
+          <div class="ini-block">
+            <div class="ini-block-title">Motivación</div>
+            <p>Los resultados en Saber Pro, los índices de deserción estudiantil y el NPS de experiencia muestran que retener y acompañar al estudiante es tan determinante para el futuro de la Sede como atraerlo.</p>
+          </div>
+          <div class="ini-block">
+            <div class="ini-block-title">Objetivo</div>
+            <p>Transformar la experiencia educativa integral del estudiante —desde su ingreso hasta su egreso— fortaleciendo la calidad académica, la permanencia y el sentido de pertenencia, mediante la acreditación de programas, el acompañamiento profesoral autogestionado y la implementación plena del modelo 4.0 en los Centros Universitarios.</p>
+          </div>
+          <div class="ini-block">
+            <div class="ini-block-title">Acciones habilitadoras</div>
+            <ol class="ini-acciones"><li><span class="ini-num">1</span>Rutas aceleradas de condiciones iniciales de acreditación por programa y CU</li><li><span class="ini-num">2</span>Comunidades de práctica docente orientadas a calidad académica y permanencia</li><li><span class="ini-num">3</span>Fortalecimiento de bilingüismo: ruta de certificación A2→B1 en todos los CU</li><li><span class="ini-num">4</span>Sistema de autoevaluación permanente con analítica institucional (SIAC)</li><li><span class="ini-num">5</span>Inmersiones sociales y vinculación con egresados como parte del currículo</li></ol>
+          </div>
+          <div class="ini-block">
+            <div class="ini-block-title">Metas clave 2030</div>
+            <ul class="ini-metas"><li>6 programas acreditados CNA 2030</li><li>NPS institucional: 46 al 2030</li><li>100% CU con modelo 4.0</li><li>B1 en 50% de estudiantes</li></ul>
+          </div>
+          <div class="ini-block">
+            <div class="ini-block-title">Frentes PDI que activa</div>
+            <div class="ini-frentes-tags"><span class="ini-frente-tag">F2: Innovación Académica y Experiencia Vibrante</span><span class="ini-frente-tag">F3: Investigación e Impacto Social</span><span class="ini-frente-tag">F4: Centros Universitarios</span></div>
+          </div>
+          
+        </div>
+      </div>
+
+      <div class="ini-card" id="ini-2" style="--accent:var(--i2)">
+        <div class="ini-top">
+          <div class="ini-badge">2</div>
+          <div>
+            <div class="ini-categoria">Innovación Curricular & Oferta Flexible</div>
+            <h3>Portafolio Académico Inteligente</h3>
+          </div>
+          <div class="ini-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 3 8l9 5 9-5-9-5Z"/><path d="M3 16l9 5 9-5M3 12l9 5 9-5"/></svg></div>
+        </div>
+        <div class="ini-tags"><span class="ini-tag">Excelencia Académica</span><span class="ini-tag">Sostenibilidad Integral</span><span class="ini-tag">Ecosistema Digital</span><span class="ini-tag ini-tag-motor">Motor: Calidad · Crecimiento · Sostenibilidad</span></div>
+        <p class="ini-desc">Transforma el currículo y la operación académica desde tres frentes simultáneos: pedagógico (metodologías ABS/ABP/ABR, trayectorias individuales, aulas digitales), de innovación (cultura Maker, comunidades de práctica, articulación con TEC MD, IA y tecnologías emergentes) y de crecimiento (educación continua, cursos híbridos interprofesionales, doble titulación, MD Micronegocios).</p>
+        <button class="toggle-frentes ini-toggle" onclick="this.closest('.ini-card').classList.toggle('open')">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+          Ver detalle completo de la iniciativa
+        </button>
+        <div class="ini-panel">
+          <div class="ini-block">
+            <div class="ini-block-title">Motivación</div>
+            <p>Los estudiantes buscan trayectorias flexibles, formación híbrida, cultura Maker y experiencias con tecnología emergente. Mantener un portafolio estático frente a estas tendencias compromete la pertinencia y la sostenibilidad de la oferta.</p>
+          </div>
+          <div class="ini-block">
+            <div class="ini-block-title">Objetivo</div>
+            <p>Diseñar y desplegar un portafolio académico flexible, innovador y orientado a datos, que incorpore metodologías activas, trayectorias individuales de aprendizaje, cultura Maker, doble titulación internacional y educación continua, fortaleciendo la pertinencia y competitividad de los programas en el territorio.</p>
+          </div>
+          <div class="ini-block">
+            <div class="ini-block-title">Acciones habilitadoras</div>
+            <ol class="ini-acciones"><li><span class="ini-num">1</span>Diseño de trayectorias individuales de aprendizaje en el 100% de programas</li><li><span class="ini-num">2</span>Implementación de metodologías activas ABS/ABP/ABR certificadas por docentes</li><li><span class="ini-num">3</span>Articulación del TEC MD y cultura Maker en todos los Centros Universitarios</li><li><span class="ini-num">4</span>Educación continua, diplomados y microcredenciales como fuentes de ingreso</li><li><span class="ini-num">5</span>Doble titulación internacional en al menos 2 programas por rectoría</li></ol>
+          </div>
+          <div class="ini-block">
+            <div class="ini-block-title">Metas clave 2030</div>
+            <ul class="ini-metas"><li>10.293 estudiantes con competencias Maker</li><li>8.214 estudiantes/año en cursos híbridos</li><li>100% programas con trayectorias individuales</li><li>50% estudiantes en educación continua</li></ul>
+          </div>
+          <div class="ini-block">
+            <div class="ini-block-title">Frentes PDI que activa</div>
+            <div class="ini-frentes-tags"><span class="ini-frente-tag">F2: Innovación Académica y Experiencia Vibrante</span><span class="ini-frente-tag">F3: Investigación e Impacto Social</span><span class="ini-frente-tag">F6: Sistema Universitario Digital</span><span class="ini-frente-tag">F7: Mercadeo, Captación y Experiencia</span></div>
+          </div>
+          
+        </div>
+      </div>
+
+      <div class="ini-card" id="ini-3" style="--accent:var(--i3)">
+        <div class="ini-top">
+          <div class="ini-badge">3</div>
+          <div>
+            <div class="ini-categoria">Sostenibilidad Financiera, Física & Ambiental</div>
+            <h3>Crecer con Propósito</h3>
+          </div>
+          <div class="ini-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22c4-4 8-8.5 8-13a8 8 0 1 0-16 0c0 4.5 4 9 8 13Z"/><path d="M12 12a2 2 0 1 0 0-4 2 2 0 0 0 0 4Z"/></svg></div>
+        </div>
+        <div class="ini-tags"><span class="ini-tag">Sostenibilidad Integral</span><span class="ini-tag ini-tag-motor">Motor: Sostenibilidad</span></div>
+        <p class="ini-desc">Integra tres dimensiones: financiera (diversificación de ingresos vía educación continua, proyectos, patrocinios y fundraising hasta EBITDA ≥20%), física (planes maestros de infraestructura y ocupación óptima de espacios académicos) y ambiental (gestión de residuos, capacitación en uso racional de recursos).</p>
+        <button class="toggle-frentes ini-toggle" onclick="this.closest('.ini-card').classList.toggle('open')">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+          Ver detalle completo de la iniciativa
+        </button>
+        <div class="ini-panel">
+          <div class="ini-block">
+            <div class="ini-block-title">Motivación</div>
+            <p>La sostenibilidad financiera de la Sede depende hoy en gran medida de la matrícula. Diversificar ingresos, optimizar infraestructura y consolidar prácticas responsables con la Casa Común son condiciones no negociables de cara al 2030.</p>
+          </div>
+          <div class="ini-block">
+            <div class="ini-block-title">Objetivo</div>
+            <p>Garantizar la sostenibilidad financiera, física y ambiental de la Sede mediante la diversificación de fuentes de ingreso, la optimización de espacios físicos y la consolidación de una cultura institucional de uso racional de los recursos y cuidado de la Casa Común.</p>
+          </div>
+          <div class="ini-block">
+            <div class="ini-block-title">Acciones habilitadoras</div>
+            <ol class="ini-acciones"><li><span class="ini-num">1</span>Diagnóstico financiero por CU y diseño de plan de diversificación de ingresos</li><li><span class="ini-num">2</span>Modelo de educación continua y EDUCON como motor de sostenibilidad</li><li><span class="ini-num">3</span>Plan de ocupación y optimización de espacios físicos por CU</li><li><span class="ini-num">4</span>Estrategia de consecución de recursos: fundraising y proyectos externos</li><li><span class="ini-num">5</span>Implementación de planes de gestión ambiental y huella de carbono</li></ol>
+          </div>
+          <div class="ini-block">
+            <div class="ini-block-title">Metas clave 2030</div>
+            <ul class="ini-metas"><li>EBITDA ≥20% al 2030</li><li>10% ingresos fuera de matrícula</li><li>90% ocupación espacios propios</li><li>100% CU con plan ambiental activo</li></ul>
+          </div>
+          <div class="ini-block">
+            <div class="ini-block-title">Frentes PDI que activa</div>
+            <div class="ini-frentes-tags"><span class="ini-frente-tag">F8: Sostenibilidad y Ecología Integral</span></div>
+          </div>
+          
+        </div>
+      </div>
+
+      <div class="ini-card" id="ini-4" style="--accent:var(--i4)">
+        <div class="ini-top">
+          <div class="ini-badge">4</div>
+          <div>
+            <div class="ini-categoria">Comunicación Estratégica & Posicionamiento de Marca</div>
+            <h3>Voces que Transforman</h3>
+          </div>
+          <div class="ini-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l18-7-7 18-2.5-7.5L3 11Z"/></svg></div>
+        </div>
+        <div class="ini-tags"><span class="ini-tag">Expansión y Cobertura</span><span class="ini-tag ini-tag-motor">Motor: Crecimiento · Impacto</span></div>
+        <p class="ini-desc">Construye y proyecta la voz pública de la Sede en cada uno de sus territorios de influencia. Integra el fortalecimiento del mercadeo digital y tradicional con mensajes adaptados a la afinidad geográfica, cultural y demográfica de cada CU; el posicionamiento de marca mediante campañas creativas; y la gestión de relacionamiento con medios, líderes locales y entes territoriales.</p>
+        <button class="toggle-frentes ini-toggle" onclick="this.closest('.ini-card').classList.toggle('open')">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+          Ver detalle completo de la iniciativa
+        </button>
+        <div class="ini-panel">
+          <div class="ini-block">
+            <div class="ini-block-title">Motivación</div>
+            <p>La fortaleza académica y el impacto social de UNIMINUTO Cundinamarca-Boyacá no se traducen automáticamente en reconocimiento. La Sede opera en territorios donde la competencia por estudiantes, aliados y reputación institucional es creciente.</p>
+          </div>
+          <div class="ini-block">
+            <div class="ini-block-title">Objetivo</div>
+            <p>Posicionar la marca UNIMINUTO Cundinamarca-Boyacá como referente de transformación social y educativa en los territorios, mediante una estrategia integral de comunicación, relacionamiento y visibilidad en medios que fortalezca la reputación institucional y consolide relaciones duraderas con todos los grupos de interés.</p>
+          </div>
+          <div class="ini-block">
+            <div class="ini-block-title">Acciones habilitadoras</div>
+            <ol class="ini-acciones"><li><span class="ini-num">1</span>Estrategia de posicionamiento de marca y campaña de visibilidad territorial</li><li><span class="ini-num">2</span>Relacionamiento con medios de comunicación regionales y nacionales</li><li><span class="ini-num">3</span>Gestión de alianzas con entes territoriales, empresarios y líderes locales</li><li><span class="ini-num">4</span>Analítica de marca: monitoreo de Top of Mind, Top of Heart y reputación</li><li><span class="ini-num">5</span>Plan de comunicación diferenciado por CU adaptado al contexto local</li></ol>
+          </div>
+          <div class="ini-block">
+            <div class="ini-block-title">Metas clave 2030</div>
+            <ul class="ini-metas"><li>Top 5 IES reconocidas del país (Top of Mind)</li><li>Top 3 en transformación social (Top of Heart)</li><li>Cobertura mediática en todos los CU</li><li>Estrategia de marca activa en Cundinamarca y Boyacá</li></ul>
+          </div>
+          <div class="ini-block">
+            <div class="ini-block-title">Frentes PDI que activa</div>
+            <div class="ini-frentes-tags"><span class="ini-frente-tag">F7: Mercadeo, Captación y Experiencia</span><span class="ini-frente-tag">F3: Investigación, Innovación e Impacto Social</span></div>
+          </div>
+          
+        </div>
+      </div>
+
+      <div class="ini-card" id="ini-5" style="--accent:var(--i5)">
+        <div class="ini-top">
+          <div class="ini-badge">5</div>
+          <div>
+            <div class="ini-categoria">Infraestructura Propia & Espacios Misionales</div>
+            <h3>Campus con Propósito</h3>
+          </div>
+          <div class="ini-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 21V9l8-5 8 5v12"/><path d="M9 21v-6h6v6M4 9h16"/></svg></div>
+        </div>
+        <div class="ini-tags"><span class="ini-tag">Sostenibilidad Integral</span><span class="ini-tag">Excelencia Académica</span><span class="ini-tag ini-tag-motor">Motor: Calidad · Sostenibilidad</span></div>
+        <p class="ini-desc">Actúa sobre dos frentes simultáneos: adquisición y construcción de infraestructura propia (con énfasis en CU Madrid y otros CU en arriendo) y transformación de los espacios existentes hacia ambientes de aprendizaje innovadores, vibrantes y misionales. Incluye el plan maestro de infraestructura multicampus, espacios Maker y de bienestar, aulas Hyflex y conectividad de alta velocidad.</p>
+        <button class="toggle-frentes ini-toggle" onclick="this.closest('.ini-card').classList.toggle('open')">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+          Ver detalle completo de la iniciativa
+        </button>
+        <div class="ini-panel">
+          <div class="ini-block">
+            <div class="ini-block-title">Motivación</div>
+            <p>Varios Centros Universitarios operan en espacios arrendados que no siempre responden a la identidad misional ni a los estándares académicos que UNIMINUTO proyecta. El CU Madrid es el caso más urgente: operar en arriendo en un municipio estratégico de la Sabana es insostenible a largo plazo.</p>
+          </div>
+          <div class="ini-block">
+            <div class="ini-block-title">Objetivo</div>
+            <p>Garantizar que todos los espacios físicos de la Sede sean propios, seguros, misionales y acordes con el modelo educativo, impulsando la construcción y adquisición de sedes propias —con Madrid como prioridad— y la transformación de todos los ambientes de aprendizaje hacia el estándar 4.0.</p>
+          </div>
+          <div class="ini-block">
+            <div class="ini-block-title">Acciones habilitadoras</div>
+            <ol class="ini-acciones"><li><span class="ini-num">1</span>Estudio de factibilidad y hoja de ruta para adquisición/construcción de sede propia en Madrid</li><li><span class="ini-num">2</span>Diagnóstico de infraestructura por CU y plan maestro multicampus al 2030</li><li><span class="ini-num">3</span>Transformación de aulas en espacios Hyflex, Maker y de bienestar estudiantil</li><li><span class="ini-num">4</span>Conectividad de alta velocidad y equipamiento tecnológico en el 100% de CU</li><li><span class="ini-num">5</span>Incorporación de prácticas de construcción sostenible y eficiencia energética</li></ol>
+          </div>
+          <div class="ini-block">
+            <div class="ini-block-title">Metas clave 2030</div>
+            <ul class="ini-metas"><li>CU Madrid: sede propia al 2028</li><li>100% de CU con plan maestro implementado</li><li>100% aulas con estándar Hyflex/4.0</li><li>0% dependencia de arriendo en CU estratégicos</li></ul>
+          </div>
+          <div class="ini-block">
+            <div class="ini-block-title">Frentes PDI que activa</div>
+            <div class="ini-frentes-tags"><span class="ini-frente-tag">F8: Sostenibilidad y Ecología Integral</span><span class="ini-frente-tag">F4: Centros Universitarios y Desarrollo Organizacional</span><span class="ini-frente-tag">F6: Sistema Universitario Digital</span></div>
+          </div>
+          
+          <div class="ini-priority">
+            <strong>Prioridad — CU Madrid</strong>
+            <p>CU Madrid opera actualmente en arriendo en un municipio estratégico de la Sabana. La construcción de sede propia es la acción prioritaria de esta iniciativa para garantizar autonomía operativa, reducir costos y crear un espacio misional permanente.</p>
+          </div>
+        </div>
+      </div>
   </div>
 </div>
 
