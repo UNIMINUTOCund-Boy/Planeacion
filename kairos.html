@@ -732,10 +732,18 @@ function hexToRgba(hex, a){
 
 /* ---------- reveal on scroll ---------- */
 function initReveal(){
+  const items = document.querySelectorAll('.reveal');
+  if(typeof IntersectionObserver === 'undefined'){
+    items.forEach(el=>el.classList.add('in'));
+    return;
+  }
   const obs = new IntersectionObserver((entries)=>{
     entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); obs.unobserve(e.target); } });
-  }, {threshold:0.12});
-  document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+  }, {threshold:0, rootMargin:'0px 0px -5% 0px'});
+  items.forEach(el=>obs.observe(el));
+  // safety net: never leave content invisible, even if an element's box
+  // is taller than the viewport and the observer never fires for it
+  setTimeout(()=>{ items.forEach(el=>el.classList.add('in')); }, 2500);
 }
 
 /* ---------- init ---------- */
