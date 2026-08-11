@@ -1,0 +1,908 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sala de Control · Sedes que Vibran y se Transforman</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Poppins:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy:#1F3864;
+    --navy-dark:#12213B;
+    --navy-soft:#2C4C82;
+    --gold:#C9A227;
+    --gold-light:#E9D9A2;
+    --cream:#F7F3E9;
+    --paper:#FCFAF4;
+    --ink:#241F17;
+    --ink-soft:#5C5747;
+    --line:#E4DCC7;
+    --green:#2E7D4F;
+    --green-bg:#E4F1E8;
+    --amber:#B8860B;
+    --amber-bg:#FBF1DC;
+    --red:#B8402E;
+    --red-bg:#F8E7E2;
+    --girardot:#1F6F5C;
+    --soacha:#C1622D;
+    --zipaquira:#5B4B8A;
+    --shadow: 0 10px 30px -12px rgba(18,33,59,0.25);
+    --radius: 14px;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--cream);
+    color:var(--ink);
+    font-family:'Poppins',sans-serif;
+    font-weight:400;
+    line-height:1.55;
+    -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3,.num{font-family:'Fraunces',serif;}
+  .wrap{max-width:1180px;margin:0 auto;padding:0 32px;}
+  a{color:inherit;}
+
+  /* ---------- HERO ---------- */
+  .hero{
+    background:radial-gradient(120% 140% at 15% 0%, var(--navy-soft) 0%, var(--navy) 46%, var(--navy-dark) 100%);
+    color:var(--paper);
+    padding:56px 0 0;
+    position:relative;
+    overflow:hidden;
+  }
+  .hero .wrap{position:relative;z-index:2;}
+  .eyebrow{
+    font-family:'JetBrains Mono',monospace;
+    font-size:11.5px;
+    letter-spacing:.16em;
+    text-transform:uppercase;
+    color:var(--gold-light);
+    display:flex;align-items:center;gap:10px;
+    margin-bottom:22px;
+  }
+  .eyebrow .dot{width:7px;height:7px;border-radius:50%;background:var(--gold);box-shadow:0 0 0 4px rgba(201,162,39,.22);animation:blink 2.4s ease-in-out infinite;}
+  @keyframes blink{0%,100%{opacity:1;}50%{opacity:.35;}}
+  .hero h1{
+    font-size:clamp(34px,5vw,54px);
+    line-height:1.05;
+    margin:0 0 14px;
+    font-weight:600;
+    max-width:800px;
+  }
+  .hero h1 em{font-style:normal;color:var(--gold);}
+  .hero p.sub{
+    max-width:620px;
+    font-size:16.5px;
+    color:#D9E0EC;
+    margin:0 0 38px;
+  }
+  .hero-kpis{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:0;
+    border-top:1px solid rgba(255,255,255,.14);
+    margin-top:10px;
+  }
+  .hero-kpi{
+    padding:20px 22px 24px;
+    border-right:1px solid rgba(255,255,255,.14);
+  }
+  .hero-kpi:last-child{border-right:none;}
+  .hero-kpi .val{font-size:30px;font-weight:600;color:var(--paper);}
+  .hero-kpi .val small{font-size:15px;font-weight:400;color:#B9C4D8;}
+  .hero-kpi .lbl{font-size:12px;color:#AEBBD1;margin-top:3px;letter-spacing:.02em;}
+  @media(max-width:680px){
+    .hero-kpis{grid-template-columns:repeat(2,1fr);}
+    .hero-kpi{border-right:1px solid rgba(255,255,255,.14);}
+    .hero-kpi:nth-child(2n){border-right:none;}
+    .wrap{padding:0 20px;}
+  }
+
+  /* pulse line */
+  .pulse-holder{position:relative;height:160px;margin-top:6px;}
+  svg.pulse{width:100%;height:100%;display:block;overflow:visible;}
+  .pulse-path{
+    fill:none;
+    stroke:var(--gold);
+    stroke-width:2.4;
+    stroke-linecap:round;
+    stroke-linejoin:round;
+    filter:drop-shadow(0 0 6px rgba(201,162,39,.55));
+    stroke-dasharray:2600;
+    stroke-dashoffset:2600;
+    animation:draw 2.6s cubic-bezier(.65,0,.35,1) forwards;
+  }
+  @keyframes draw{to{stroke-dashoffset:0;}}
+  .pulse-glow{
+    fill:none;stroke:rgba(201,162,39,.18);stroke-width:14;stroke-linecap:round;
+  }
+  .pulse-marker{
+    position:absolute;top:0;transform:translate(-50%,0);
+    text-align:center;
+    opacity:0;
+    animation:riseIn .6s ease forwards;
+  }
+  @keyframes riseIn{from{opacity:0;transform:translate(-50%,8px);}to{opacity:1;transform:translate(-50%,0);}}
+  .pulse-marker .score{
+    font-family:'Fraunces',serif;font-weight:600;font-size:22px;color:var(--paper);
+  }
+  .pulse-marker .name{
+    font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.06em;
+    text-transform:uppercase;color:var(--gold-light);margin-top:2px;
+  }
+
+  /* ---------- NAV ---------- */
+  .tabbar{
+    position:sticky;top:0;z-index:50;
+    background:rgba(247,243,233,.92);
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--line);
+  }
+  .tabbar .wrap{display:flex;gap:4px;overflow-x:auto;padding:0 32px;}
+  .tabbtn{
+    appearance:none;border:none;background:none;cursor:pointer;
+    font-family:'Poppins',sans-serif;font-weight:500;font-size:14px;
+    color:var(--ink-soft);
+    padding:16px 16px 13px;
+    border-bottom:3px solid transparent;
+    white-space:nowrap;
+    transition:color .18s ease, border-color .18s ease;
+  }
+  .tabbtn .tag{
+    display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:8px;vertical-align:middle;
+  }
+  .tabbtn:hover{color:var(--navy);}
+  .tabbtn.active{color:var(--navy);border-bottom-color:var(--gold);font-weight:600;}
+
+  section.panel{display:none;padding:44px 0 80px;animation:fadeUp .45s ease;}
+  section.panel.active{display:block;}
+  @keyframes fadeUp{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:translateY(0);}}
+
+  .section-title{
+    font-size:26px;font-weight:600;color:var(--navy);margin:0 0 6px;
+  }
+  .section-desc{color:var(--ink-soft);font-size:14.5px;margin:0 0 30px;max-width:680px;}
+
+  /* ---------- LEADERBOARD CARDS ---------- */
+  .cards{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;}
+  @media(max-width:900px){.cards{grid-template-columns:1fr;}}
+  .card{
+    background:var(--paper);
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    padding:26px 24px 22px;
+    box-shadow:var(--shadow);
+    cursor:pointer;
+    transition:transform .22s ease, box-shadow .22s ease;
+    position:relative;
+    overflow:hidden;
+  }
+  .card:hover{transform:translateY(-4px);box-shadow:0 18px 40px -14px rgba(18,33,59,.32);}
+  .card .stripe{position:absolute;top:0;left:0;right:0;height:5px;}
+  .card .rank{
+    font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.1em;
+    color:var(--ink-soft);text-transform:uppercase;margin-bottom:10px;
+  }
+  .card h3{margin:0 0 3px;font-size:19px;color:var(--navy);font-weight:600;}
+  .card .meta{font-size:12.5px;color:var(--ink-soft);margin-bottom:18px;}
+  .gaugewrap{display:flex;align-items:center;gap:18px;margin-bottom:18px;}
+  .gauge{position:relative;width:92px;height:92px;flex:none;}
+  .gauge svg{width:100%;height:100%;transform:rotate(-90deg);}
+  .gauge circle{fill:none;stroke-width:9;}
+  .gauge .bg{stroke:var(--line);}
+  .gauge .fg{stroke-linecap:round;transition:stroke-dashoffset 1.4s cubic-bezier(.65,0,.35,1);}
+  .gauge .center{
+    position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  }
+  .gauge .center .n{font-family:'Fraunces',serif;font-weight:600;font-size:22px;color:var(--navy);line-height:1;}
+  .gauge .center .d{font-size:9.5px;color:var(--ink-soft);letter-spacing:.05em;}
+  .statuschips{display:flex;gap:8px;flex:1;flex-wrap:wrap;}
+  .chip{
+    font-size:11.5px;font-weight:600;padding:5px 9px;border-radius:20px;
+    display:flex;align-items:center;gap:5px;
+  }
+  .chip.ok{background:var(--green-bg);color:var(--green);}
+  .chip.warn{background:var(--amber-bg);color:var(--amber);}
+  .chip.bad{background:var(--red-bg);color:var(--red);}
+  .card .cta{
+    font-size:12.5px;font-weight:600;color:var(--navy);
+    display:flex;align-items:center;gap:6px;margin-top:4px;
+  }
+  .card .cta svg{width:13px;height:13px;transition:transform .2s ease;}
+  .card:hover .cta svg{transform:translateX(3px);}
+
+  /* ---------- DETAIL PANELS ---------- */
+  .detail-head{
+    display:flex;justify-content:space-between;align-items:flex-end;gap:24px;flex-wrap:wrap;
+    margin-bottom:30px;border-bottom:1px solid var(--line);padding-bottom:26px;
+  }
+  .detail-head h2{font-size:28px;color:var(--navy);margin:0 0 6px;font-weight:600;}
+  .detail-head .sub{color:var(--ink-soft);font-size:14px;max-width:560px;}
+  .detail-score{text-align:right;}
+  .detail-score .n{font-family:'Fraunces',serif;font-size:44px;font-weight:600;line-height:1;}
+  .detail-score .l{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-soft);font-family:'JetBrains Mono',monospace;}
+
+  .grid2{display:grid;grid-template-columns:1.1fr 1fr;gap:36px;margin-bottom:44px;}
+  @media(max-width:900px){.grid2{grid-template-columns:1fr;}}
+
+  .radar-box{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);padding:22px;box-shadow:var(--shadow);}
+  .radar-box h4{margin:0 0 4px;font-size:14px;color:var(--navy);}
+  .radar-box .note{font-size:12px;color:var(--ink-soft);margin-bottom:8px;}
+  .radar-legend{display:flex;flex-wrap:wrap;gap:10px;margin-top:10px;}
+  .radar-legend span{font-size:11.5px;color:var(--ink-soft);display:flex;gap:6px;align-items:center;cursor:default;}
+  .radar-legend b{color:var(--navy);}
+  .radar-tip{
+    position:absolute;background:var(--navy);color:#fff;font-size:11.5px;padding:6px 10px;border-radius:8px;
+    pointer-events:none;opacity:0;transition:opacity .12s ease;transform:translate(-50%,-115%);white-space:nowrap;z-index:10;
+    font-family:'JetBrains Mono',monospace;
+  }
+
+  .kpi-mini{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+  .kpi-mini .box{background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:16px 16px;box-shadow:var(--shadow);}
+  .kpi-mini .box .n{font-family:'Fraunces',serif;font-size:26px;font-weight:600;color:var(--navy);}
+  .kpi-mini .box .l{font-size:11.5px;color:var(--ink-soft);}
+
+  /* compliance table */
+  .filterbar{display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap;align-items:center;}
+  .filterbtn{
+    font-family:'Poppins',sans-serif;font-size:12.5px;font-weight:600;
+    border:1px solid var(--line);background:var(--paper);color:var(--ink-soft);
+    padding:7px 13px;border-radius:20px;cursor:pointer;transition:all .15s ease;
+    display:flex;align-items:center;gap:6px;
+  }
+  .filterbtn .count{
+    background:rgba(0,0,0,.08);border-radius:10px;padding:0 6px;font-size:11px;
+  }
+  .filterbtn:hover{border-color:var(--navy);}
+  .filterbtn.active{background:var(--navy);border-color:var(--navy);color:#fff;}
+  .filterbtn.active .count{background:rgba(255,255,255,.22);}
+
+  .complist{display:flex;flex-direction:column;gap:10px;}
+  .comprow{
+    background:var(--paper);border:1px solid var(--line);border-left:4px solid var(--line);
+    border-radius:10px;padding:14px 16px;
+    display:grid;grid-template-columns:26px 1fr auto;gap:14px;align-items:start;
+    transition:opacity .2s ease, transform .2s ease;
+  }
+  .comprow.hide{display:none;}
+  .comprow .icon{font-size:16px;line-height:1.4;}
+  .comprow .txt strong{display:block;font-size:13.5px;color:var(--navy);margin-bottom:3px;}
+  .comprow .txt span{font-size:12.5px;color:var(--ink-soft);}
+  .comprow.ok{border-left-color:var(--green);}
+  .comprow.warn{border-left-color:var(--amber);}
+  .comprow.bad{border-left-color:var(--red);}
+  .statuspill{
+    font-size:10.5px;font-weight:700;letter-spacing:.03em;text-transform:uppercase;
+    padding:4px 9px;border-radius:20px;white-space:nowrap;height:fit-content;
+  }
+  .statuspill.ok{background:var(--green-bg);color:var(--green);}
+  .statuspill.warn{background:var(--amber-bg);color:var(--amber);}
+  .statuspill.bad{background:var(--red-bg);color:var(--red);}
+
+  /* accordions */
+  .acctitle{font-size:16px;font-weight:600;color:var(--navy);margin:36px 0 12px;display:flex;align-items:center;gap:8px;}
+  details.acc{
+    background:var(--paper);border:1px solid var(--line);border-radius:10px;margin-bottom:9px;overflow:hidden;
+  }
+  details.acc summary{
+    cursor:pointer;list-style:none;padding:13px 16px;font-size:13.5px;font-weight:500;color:var(--ink);
+    display:flex;align-items:center;gap:10px;
+  }
+  details.acc summary::-webkit-details-marker{display:none;}
+  details.acc summary .chevron{margin-left:auto;transition:transform .2s ease;color:var(--ink-soft);font-size:12px;}
+  details.acc[open] summary .chevron{transform:rotate(90deg);}
+  details.acc .accbody{padding:0 16px 15px 42px;font-size:13px;color:var(--ink-soft);}
+  details.acc summary .dot{width:8px;height:8px;border-radius:50%;flex:none;}
+  .risk .dot{background:var(--red);}
+  .reco details.acc summary .dot{background:var(--navy);}
+  .reco details.acc summary::before{content:none;}
+
+  /* comparativo tab */
+  .compare-block{margin-bottom:34px;}
+  .compare-crit{font-size:13.5px;font-weight:600;color:var(--navy);margin-bottom:10px;display:flex;justify-content:space-between;}
+  .compare-crit .weight{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--ink-soft);font-weight:400;}
+  .compare-bars{display:flex;flex-direction:column;gap:7px;}
+  .compare-bar-row{display:grid;grid-template-columns:104px 1fr 40px;align-items:center;gap:10px;}
+  .compare-bar-row .lbl{font-size:12px;color:var(--ink-soft);display:flex;align-items:center;gap:7px;}
+  .compare-bar-row .lbl .sw{width:9px;height:9px;border-radius:3px;flex:none;}
+  .compare-bar-track{background:var(--line);border-radius:6px;height:10px;overflow:hidden;}
+  .compare-bar-fill{height:100%;border-radius:6px;width:0;transition:width 1.1s cubic-bezier(.65,0,.35,1);}
+  .compare-bar-row .val{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--navy);text-align:right;}
+
+  .legend-sedes{display:flex;gap:18px;margin-bottom:28px;flex-wrap:wrap;}
+  .legend-sedes .it{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--ink-soft);}
+  .legend-sedes .sw{width:12px;height:12px;border-radius:4px;}
+
+  .top-summary{
+    display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-bottom:40px;
+  }
+  @media(max-width:900px){.top-summary{grid-template-columns:1fr;}}
+  .top-summary .box{
+    background:var(--navy);color:#fff;border-radius:var(--radius);padding:20px 22px;position:relative;overflow:hidden;
+  }
+  .top-summary .box.g2{background:linear-gradient(135deg,var(--navy) 0%,var(--navy-soft) 100%);}
+  .top-summary .box .n{font-family:'Fraunces',serif;font-size:30px;font-weight:600;}
+  .top-summary .box .l{font-size:12px;color:var(--gold-light);letter-spacing:.03em;margin-top:2px;}
+
+  footer{
+    background:var(--navy-dark);color:#B9C4D8;padding:34px 0;font-size:12.5px;
+  }
+  footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;}
+  footer b{color:var(--gold-light);}
+
+  ::selection{background:var(--gold-light);}
+
+  @media (prefers-reduced-motion: reduce){
+    .pulse-path{animation:none;stroke-dashoffset:0;}
+    *{animation-duration:.01ms !important; transition-duration:.01ms !important;}
+  }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="wrap">
+    <div class="eyebrow"><span class="dot"></span>Dirección de Planeación y Calidad · Sede Cundinamarca–Boyacá</div>
+    <h1>Sala de control de validación<br><em>Sedes que Vibran y se Transforman</em></h1>
+    <p class="sub">Panel interactivo con el resultado de la validación de cumplimiento frente a la convocatoria y la estimación orientativa frente a la rúbrica oficial, para las tres propuestas de la Sede presentadas al concurso.</p>
+    <div class="hero-kpis" id="heroKpis"></div>
+  </div>
+  <div class="wrap pulse-holder">
+    <svg class="pulse" viewBox="0 0 1180 160" preserveAspectRatio="none">
+      <path class="pulse-glow" id="pulseGlow" d=""></path>
+      <path class="pulse-path" id="pulsePath" d=""></path>
+    </svg>
+    <div id="pulseMarkers"></div>
+  </div>
+</div>
+
+<nav class="tabbar">
+  <div class="wrap" id="tabbar"></div>
+</nav>
+
+<section class="panel active" id="panel-resumen">
+  <div class="wrap">
+    <div class="section-title">Resumen general</div>
+    <p class="section-desc">Vista consolidada de las tres propuestas revisadas. Selecciona una tarjeta para abrir el detalle completo: rúbrica estimada, cumplimiento frente a la convocatoria, riesgos críticos y recomendaciones.</p>
+    <div class="top-summary" id="topSummary"></div>
+    <div class="cards" id="leaderCards"></div>
+  </div>
+</section>
+
+<section class="panel" id="panel-comparativo">
+  <div class="wrap">
+    <div class="section-title">Comparativo por criterio de la rúbrica</div>
+    <p class="section-desc">Estimación orientativa (escala 1–5) de las tres propuestas para cada uno de los 7 criterios ponderados de la rúbrica oficial del concurso.</p>
+    <div class="legend-sedes" id="legendSedes"></div>
+    <div id="compareBlocks"></div>
+  </div>
+</section>
+
+<div id="detailPanels"></div>
+
+<footer>
+  <div class="wrap">
+    <div>Informe generado por la <b>Dirección de Planeación y Calidad</b> — UNIMINUTO Sede Cundinamarca–Boyacá.</div>
+    <div>Validación interna de apoyo a la formulación · no reemplaza la calificación oficial del jurado mixto del concurso.</div>
+  </div>
+</footer>
+
+<script>
+/* ============================= DATA ============================= */
+const CRITERIA = [
+  {key:"reto", label:"Identifica y responde a un reto real", short:"Reto real", weight:15},
+  {key:"metod", label:"Alineación con Distancia 4.0 y metodologías activas", short:"Metodologías D4.0", weight:15},
+  {key:"beats", label:"Incluye formatos de espacios BEATS", short:"Espacios BEATS", weight:15},
+  {key:"territorio", label:"Conecta con el territorio y/o sector productivo", short:"Territorio", weight:10},
+  {key:"comunidad", label:"Diseñada con la comunidad académica", short:"Comunidad académica", weight:10},
+  {key:"integra", label:"Integra experiencias presenciales, híbridas y digitales", short:"Presencial-híbrido-digital", weight:20},
+  {key:"sostenible", label:"Sostenible, escalable y replicable", short:"Sostenibilidad", weight:15},
+];
+
+const PROPOSALS = [
+  {
+    id:"girardot",
+    color:"var(--girardot)",
+    colorHex:"#1F6F5C",
+    name:"RíoLab UNIMINUTO 4.0",
+    subtitle:"Ecosistema de aprendizaje para el sector pesquero del Alto Magdalena",
+    sede:"Centro Universitario Girardot",
+    categoria:"C / D",
+    premio:"$40M · 1 de 4 premios",
+    rubric:{reto:4.8, metod:5.0, beats:4.8, territorio:4.7, comunidad:4.0, integra:4.25, sostenible:4.2},
+    compliance:[
+      {status:"bad", item:"Estructura y aval institucional", note:"Directivo(a) Académico(a) y Directivo(a) Administrativo(a) quedaron en blanco en el encabezado; el equipo de liderazgo institucional no está completo."},
+      {status:"bad", item:"Firmas de aval (numeral 9)", note:"El bloque de firmas (Nombre / Firma / Fecha) está completamente vacío para los tres roles requeridos."},
+      {status:"warn", item:"Declaración de aceptación de términos", note:"La casilla aparece sin evidencia de estar marcada."},
+      {status:"bad", item:"Categoría de sede (A/B/C/D)", note:"Campo en blanco, aunque el presupuesto ($40M) es coherente con el techo de Categorías C y D."},
+      {status:"bad", item:"Fecha de entrega", note:"Campo en blanco en el encabezado."},
+      {status:"bad", item:"Extensión máxima (10 páginas)", note:"Las secciones 1 a 5 ya ocupan ~13 páginas; el documento completo llega a 17–18 páginas."},
+      {status:"warn", item:"Video de presentación", note:"Se registra nombre y duración (\"RíoLab Conecta CUG\", 10 min), pero el archivo no se aportó para verificación."},
+      {status:"warn", item:"Canal y responsable de envío", note:"No verificable desde el documento; debe confirmarse el envío por el canal correcto antes del 16 de agosto."},
+      {status:"ok", item:"Coherencia presupuestal con la categoría", note:"El total ($40.000.000) coincide exactamente con el techo de Categorías C y D."},
+      {status:"ok", item:"Plan de sostenibilidad posterior al fondo", note:"Descrito con claridad: integración académica, mesa de trabajo con aliados y guía metodológica."},
+      {status:"warn", item:"Cronograma dentro del plazo institucional", note:"La última fase se extiende hasta el 15 de diciembre sin diferenciar cierre de ejecución e inauguración."},
+    ],
+    risks:[
+      "Ausencia del aval firmado del Rector, el Vicerrector o líder Académico y el Director de Centro — causal explícita de descalificación.",
+      "Plantilla incompleta (campos de encabezado en blanco) — causal explícita de descalificación por incumplimiento de requisitos formales mínimos.",
+      "Debe confirmarse la existencia y el envío efectivo del video de presentación dirigido al jurado.",
+      "La extensión del documento supera notoriamente el límite de 10 páginas declarado en la plantilla.",
+    ],
+    recos:[
+      "Diligenciar los campos de Directivo Académico, Directivo Administrativo, Categoría de sede y Fecha de entrega.",
+      "Obtener y consignar las firmas del Rector, el Vicerrector o líder Académico y el Director de Centro, y marcar la casilla de aceptación de términos.",
+      "Confirmar que el video esté finalizado y se anexe junto con el envío.",
+      "Sintetizar las secciones 1 a 5 para acercarse al límite de 10 páginas.",
+      "Completar el campo de medios de verificación con una relación descriptiva de las evidencias, no solo imágenes.",
+      "Incorporar una meta numérica de permanencia estudiantil, dado su peso en el criterio de mayor ponderación.",
+      "Asignar responsables nombrados y explicitar hitos de evaluación y mejora en el cronograma.",
+    ]
+  },
+  {
+    id:"soacha",
+    color:"var(--soacha)",
+    colorHex:"#C1622D",
+    name:"LATIDO SOACHA: Kit de Transformación 4.0",
+    subtitle:"Laboratorio de economía circular e innovación social",
+    sede:"Centro Universitario Soacha",
+    categoria:"A / B",
+    premio:"$40M · 1 premio único A/B",
+    rubric:{reto:4.7, metod:5.0, beats:4.9, territorio:4.8, comunidad:4.6, integra:4.1, sostenible:4.5},
+    compliance:[
+      {status:"ok", item:"Estructura y aval institucional", note:"Encabezado completo: Rector, Directiva Académica, Directivo Administrativo, Director de Centro y Embajador D4.0 identificados."},
+      {status:"ok", item:"Categoría de sede (A/B/C/D)", note:"Diligenciado como \"A / B\"; Soacha figura en la lista oficial de esa categoría."},
+      {status:"warn", item:"Fecha de entrega", note:"Diligenciada (07/08/2026) dentro del plazo, pero conserva los corchetes de la plantilla."},
+      {status:"warn", item:"Firmas de aval (numeral 9)", note:"Nombre y fecha diligenciados para los tres roles; falta la firma como tal."},
+      {status:"warn", item:"Declaración de aceptación de términos", note:"La casilla aparece sin evidencia de estar marcada."},
+      {status:"bad", item:"Plantilla libre de marcadores de plantilla", note:"4 marcadores \"[Insertar...]\" sin completar, incluidas 3 líneas base de indicadores de impacto."},
+      {status:"bad", item:"Extensión máxima (10 páginas)", note:"Contenido evaluable ≈15 páginas, por encima del límite declarado."},
+      {status:"ok", item:"Video de presentación", note:"Archivo efectivamente adjuntado (≈88 seg), coherente con lo declarado (\"90 segundos\")."},
+      {status:"ok", item:"Coherencia presupuestal con la categoría", note:"El total ($40.000.000) coincide con el techo de un único premio de Categorías A y B."},
+      {status:"warn", item:"Restricción de uso de recursos", note:"No hay obras civiles, pero adecuación + equipos concentran ~47% del presupuesto en infraestructura tecnológica."},
+      {status:"ok", item:"Plan de sostenibilidad posterior al fondo", note:"Integración curricular, banco de retos vivo, alianzas estratégicas y comunidad de práctica."},
+      {status:"ok", item:"Cronograma dentro del plazo institucional", note:"Inicia en septiembre y programa la inauguración exactamente el 15 de diciembre de 2026."},
+      {status:"warn", item:"Veracidad y trazabilidad de la información", note:"Cifras porcentuales del grupo focal citadas en la propuesta no aparecen en el documento fuente de hallazgos aportado."},
+    ],
+    risks:[
+      "Marcadores de plantilla sin completar en Datos de Soporte — equivalente en la práctica a un requisito formal mínimo incompleto.",
+      "Falta la firma (manuscrita o digital) de los tres avales; solo están diligenciados nombre y fecha.",
+      "La casilla de aceptación de términos no aparece marcada.",
+      "La extensión del documento supera el límite de 10 páginas.",
+      "Cifras del grupo focal no trazables al documento fuente aportado, con riesgo frente a la cláusula de veracidad de la información.",
+    ],
+    recos:[
+      "Completar los 4 marcadores de plantilla pendientes, priorizando por tratarse del criterio de mayor peso (20%).",
+      "Incorporar la firma de los tres avales y marcar la casilla de aceptación de términos.",
+      "Conservar y anexar el instrumento que sustente las cifras porcentuales citadas del grupo focal.",
+      "Sintetizar las secciones 1 a 5 para acercarse al límite de 10 páginas.",
+      "Clarificar los encabezados de periodo de la tabla de deserción cuatrimestral.",
+      "Reforzar la justificación pedagógica puntual de los equipos tecnológicos de mayor valor.",
+    ]
+  },
+  {
+    id:"zipaquira",
+    color:"var(--zipaquira)",
+    colorHex:"#5B4B8A",
+    name:"PULSO 360 — El Latido de la Innovación",
+    subtitle:"Primera experiencia del ecosistema: Hazard Hunter",
+    sede:"Centro Universitario Zipaquirá",
+    categoria:"A / B",
+    premio:"$40M · 1 premio único A/B",
+    rubric:{reto:4.6, metod:5.0, beats:4.9, territorio:4.5, comunidad:4.75, integra:3.4, sostenible:4.4},
+    compliance:[
+      {status:"ok", item:"Estructura y aval institucional", note:"Encabezado completo con los cinco responsables identificados por nombre."},
+      {status:"ok", item:"Categoría de sede (A/B/C/D)", note:"Diligenciado como \"A / B\"; Zipaquirá figura en la lista oficial de esa categoría."},
+      {status:"warn", item:"Fecha de entrega", note:"Diligenciada (07/08/2026) dentro del plazo, pero conserva los corchetes de la plantilla."},
+      {status:"warn", item:"Coherencia interna del documento", note:"La sección de tecnologías del numeral 5 describe contenido no relacionado con Hazard Hunter (tours virtuales, sensores IoT de huerta urbana); requiere revisión."},
+      {status:"warn", item:"Firmas de aval (numeral 9)", note:"Nombre y fecha diligenciados para los tres roles; falta la firma como tal."},
+      {status:"warn", item:"Declaración de aceptación de términos", note:"La casilla aparece sin evidencia de estar marcada."},
+      {status:"bad", item:"Extensión máxima (10 páginas)", note:"Contenido evaluable ≈25 páginas — la más extensa de las tres propuestas revisadas."},
+      {status:"warn", item:"Video de presentación", note:"Se registra nombre y duración (\"3 a 5 minutos\"), pero el archivo no se aportó para verificación."},
+      {status:"ok", item:"Coherencia presupuestal con la categoría", note:"El total ($40.000.000) coincide con el techo de un único premio A/B; suma aritmética correcta."},
+      {status:"ok", item:"Restricción de uso de recursos", note:"No hay obras civiles; los rubros tienen propósito experiencial directo y trazable."},
+      {status:"ok", item:"Plan de sostenibilidad posterior al fondo", note:"Integración curricular progresiva, red de aliados y sistema de seguimiento por indicadores."},
+      {status:"ok", item:"Cronograma dentro del plazo institucional", note:"Inicia el 1 de septiembre y cierra el 15 de diciembre de 2026, el cronograma más detallado revisado."},
+    ],
+    risks:[
+      "Contenido incoherente con el tema de la propuesta en la sección de tecnologías — afecta la claridad del criterio de mayor peso (20%).",
+      "La extensión del documento (~25 páginas) es la que más se aleja del límite de 10 páginas entre las tres propuestas.",
+      "Falta la firma de los tres avales; solo están diligenciados nombre y fecha.",
+      "La casilla de aceptación de términos no aparece marcada.",
+      "Debe confirmarse la existencia y el envío efectivo del video de presentación.",
+    ],
+    recos:[
+      "Revisar y reescribir la sección de tecnologías del numeral 5 con contenido coherente y propio de Hazard Hunter y PULSO 360.",
+      "Completar la línea base de los 3 indicadores de impacto pendientes (satisfacción, competencias, motivación).",
+      "Incorporar la firma de los tres avales y marcar la casilla de aceptación de términos.",
+      "Confirmar que el video esté finalizado, con duración precisa, y se anexe junto con el envío.",
+      "Sintetizar drásticamente las secciones 1 a 5; es la propuesta que más ajuste de extensión requiere.",
+      "Nombrar organizaciones concretas del corredor empresarial de Sabana Centro como aliadas.",
+    ]
+  },
+];
+
+/* ============================= HELPERS ============================= */
+function weightedTotal(p){
+  let t=0;
+  CRITERIA.forEach(c=>{ t += (c.weight/100) * p.rubric[c.key]; });
+  return t;
+}
+PROPOSALS.forEach(p=>{ p.total = weightedTotal(p); });
+
+function countStatus(p, s){ return p.compliance.filter(c=>c.status===s).length; }
+function fmt1(n){ return n.toFixed(2).replace(".",","); }
+
+/* ============================= HERO KPIs + PULSE ============================= */
+(function renderHeroKpis(){
+  const avg = PROPOSALS.reduce((a,p)=>a+p.total,0)/PROPOSALS.length;
+  const totalBad = PROPOSALS.reduce((a,p)=>a+countStatus(p,"bad"),0);
+  const totalWarn = PROPOSALS.reduce((a,p)=>a+countStatus(p,"warn"),0);
+  const best = PROPOSALS.slice().sort((a,b)=>b.total-a.total)[0];
+  const el = document.getElementById("heroKpis");
+  const items = [
+    {val:PROPOSALS.length, lbl:"Propuestas revisadas", small:""},
+    {val:fmt1(avg), lbl:"Puntaje ponderado promedio", small:"/ 5"},
+    {val:totalBad, lbl:"Hallazgos \u201cno cumple\u201d en total", small:""},
+    {val:totalWarn, lbl:"Hallazgos por verificar en total", small:""},
+  ];
+  el.innerHTML = items.map(it=>`
+    <div class="hero-kpi">
+      <div class="val">${it.val}${it.small?` <small>${it.small}</small>`:""}</div>
+      <div class="lbl">${it.lbl}</div>
+    </div>`).join("");
+})();
+
+(function renderPulse(){
+  const w=1180,h=160, baseline=h*0.6;
+  const n=PROPOSALS.length, segW=w/n;
+  let d = `M0,${baseline}`;
+  let glow = `M0,${baseline}`;
+  const markerHtml=[];
+  PROPOSALS.forEach((p,i)=>{
+    const cx = segW*i + segW*0.52;
+    const amp = (p.total/5)*(h*0.62);
+    d += ` L${cx-segW*0.30},${baseline}`;
+    d += ` L${cx-segW*0.12},${baseline+h*0.05}`;
+    d += ` L${cx-segW*0.045},${baseline-amp}`;
+    d += ` L${cx+segW*0.03},${baseline+h*0.10}`;
+    d += ` L${cx+segW*0.13},${baseline-h*0.05}`;
+    d += ` L${cx+segW*0.24},${baseline}`;
+    glow = d;
+    markerHtml.push(`
+      <div class="pulse-marker" style="left:${(cx/w*100).toFixed(2)}%; animation-delay:${1.9+i*0.18}s;">
+        <div class="score">${fmt1(p.total)}</div>
+        <div class="name">${p.sede.replace('Centro Universitario ','')}</div>
+      </div>`);
+  });
+  d += ` L${w},${baseline}`;
+  document.getElementById("pulsePath").setAttribute("d", d);
+  document.getElementById("pulseGlow").setAttribute("d", d);
+  document.getElementById("pulseMarkers").innerHTML = markerHtml.join("");
+})();
+
+/* ============================= TOP SUMMARY (resumen tab) ============================= */
+(function renderTopSummary(){
+  const best = PROPOSALS.slice().sort((a,b)=>b.total-a.total)[0];
+  const mostRisk = PROPOSALS.slice().sort((a,b)=>countStatus(b,"bad")-countStatus(a,"bad"))[0];
+  const longest = "Zipaquirá (~25 p\u00e1g.)";
+  const el = document.getElementById("topSummary");
+  el.innerHTML = `
+    <div class="box">
+      <div class="n">${best.sede.replace('Centro Universitario ','')}</div>
+      <div class="l">Mayor puntaje estimado — ${fmt1(best.total)} / 5</div>
+    </div>
+    <div class="box g2">
+      <div class="n">${mostRisk.sede.replace('Centro Universitario ','')}</div>
+      <div class="l">Más hallazgos "no cumple" (${countStatus(mostRisk,'bad')})</div>
+    </div>
+    <div class="box">
+      <div class="n">16 ago 2026</div>
+      <div class="l">Fecha límite de radicación de las tres propuestas</div>
+    </div>
+  `;
+})();
+
+/* ============================= LEADER CARDS ============================= */
+(function renderCards(){
+  const el = document.getElementById("leaderCards");
+  const ranked = PROPOSALS.slice().sort((a,b)=>b.total-a.total);
+  el.innerHTML = ranked.map((p,i)=>{
+    const pct = p.total/5*100;
+    const circumference = 2*Math.PI*38;
+    const offset = circumference - (pct/100)*circumference;
+    return `
+    <div class="card" data-goto="${p.id}">
+      <div class="stripe" style="background:${p.color};"></div>
+      <div class="rank">#${i+1} · ${p.categoria} · ${p.premio}</div>
+      <h3>${p.name}</h3>
+      <div class="meta">${p.sede}</div>
+      <div class="gaugewrap">
+        <div class="gauge">
+          <svg viewBox="0 0 92 92">
+            <circle class="bg" cx="46" cy="46" r="38"></circle>
+            <circle class="fg" cx="46" cy="46" r="38" stroke="${p.color}"
+              stroke-dasharray="${circumference}" stroke-dashoffset="${circumference}"
+              data-final="${offset}"></circle>
+          </svg>
+          <div class="center"><div class="n">${fmt1(p.total)}</div><div class="d">DE 5.0</div></div>
+        </div>
+        <div class="statuschips">
+          <span class="chip ok">✔ ${countStatus(p,'ok')} cumple</span>
+          <span class="chip warn">⚠ ${countStatus(p,'warn')} verificar</span>
+          <span class="chip bad">✘ ${countStatus(p,'bad')} no cumple</span>
+        </div>
+      </div>
+      <div class="cta">Ver validación completa
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </div>
+    </div>`;
+  }).join("");
+
+  // animate gauges once visible
+  requestAnimationFrame(()=>{
+    setTimeout(()=>{
+      document.querySelectorAll(".gauge .fg").forEach(c=>{
+        c.style.strokeDashoffset = c.getAttribute("data-final");
+      });
+    }, 150);
+  });
+
+  el.querySelectorAll(".card").forEach(c=>{
+    c.addEventListener("click", ()=> activateTab(c.dataset.goto));
+  });
+})();
+
+/* ============================= TABS ============================= */
+const TAB_DEFS = [
+  {id:"resumen", label:"Resumen", color:null},
+  ...PROPOSALS.map(p=>({id:p.id, label:p.sede.replace('Centro Universitario ',''), color:p.color})),
+  {id:"comparativo", label:"Comparativo", color:null},
+];
+
+function renderTabbar(){
+  const el = document.getElementById("tabbar");
+  el.innerHTML = TAB_DEFS.map(t=>`
+    <button class="tabbtn" data-tab="${t.id}">${t.color?`<span class="tag" style="background:${t.color}"></span>`:""}${t.label}</button>
+  `).join("");
+  el.querySelectorAll(".tabbtn").forEach(b=>{
+    b.addEventListener("click", ()=> activateTab(b.dataset.tab));
+  });
+}
+renderTabbar();
+
+function activateTab(id){
+  document.querySelectorAll(".tabbtn").forEach(b=> b.classList.toggle("active", b.dataset.tab===id));
+  document.querySelectorAll("section.panel").forEach(s=> s.classList.toggle("active", s.id===("panel-"+id)));
+  window.scrollTo({top: id==="resumen"?0:document.querySelector('.tabbar').offsetTop, behavior:"smooth"});
+  const panel = document.getElementById("panel-"+id);
+  if(panel){
+    const radar = panel.querySelector(".radar-poly");
+    if(radar){ radar.classList.remove("grow"); void radar.offsetWidth; radar.classList.add("grow"); }
+  }
+}
+document.querySelector('[data-tab="resumen"]').classList.add("active");
+
+/* ============================= RADAR CHART ============================= */
+function radarPoints(values, cx, cy, r){
+  const n = CRITERIA.length;
+  return CRITERIA.map((c,i)=>{
+    const angle = (Math.PI*2*i/n) - Math.PI/2;
+    const v = values[c.key]/5;
+    const x = cx + Math.cos(angle)*r*v;
+    const y = cy + Math.sin(angle)*r*v;
+    return `${x.toFixed(1)},${y.toFixed(1)}`;
+  }).join(" ");
+}
+function radarAxisLines(cx, cy, r){
+  const n = CRITERIA.length;
+  let s = "";
+  for(let i=0;i<n;i++){
+    const angle = (Math.PI*2*i/n) - Math.PI/2;
+    const x = cx + Math.cos(angle)*r;
+    const y = cy + Math.sin(angle)*r;
+    s += `<line x1="${cx}" y1="${cy}" x2="${x.toFixed(1)}" y2="${y.toFixed(1)}" stroke="var(--line)" stroke-width="1"/>`;
+  }
+  return s;
+}
+function radarRings(cx, cy, r){
+  let s = "";
+  [1,2,3,4,5].forEach(step=>{
+    const rr = r*(step/5);
+    const pts = CRITERIA.map((c,i)=>{
+      const angle = (Math.PI*2*i/CRITERIA.length) - Math.PI/2;
+      return `${(cx+Math.cos(angle)*rr).toFixed(1)},${(cy+Math.sin(angle)*rr).toFixed(1)}`;
+    }).join(" ");
+    s += `<polygon points="${pts}" fill="none" stroke="var(--line)" stroke-width="${step===5?1.4:0.8}"/>`;
+  });
+  return s;
+}
+function radarLabels(cx, cy, r){
+  const n = CRITERIA.length;
+  let s = "";
+  CRITERIA.forEach((c,i)=>{
+    const angle = (Math.PI*2*i/n) - Math.PI/2;
+    const lr = r + 34;
+    const x = cx + Math.cos(angle)*lr;
+    const y = cy + Math.sin(angle)*lr;
+    const anchor = Math.abs(Math.cos(angle))<0.25 ? "middle" : (Math.cos(angle)>0?"start":"end");
+    s += `<text x="${x.toFixed(1)}" y="${y.toFixed(1)}" text-anchor="${anchor}" dominant-baseline="middle"
+      font-family="Poppins" font-size="10.5" fill="var(--ink-soft)">${c.short}</text>`;
+  });
+  return s;
+}
+function buildRadarSVG(p){
+  const cx=170, cy=155, r=108;
+  const pts = radarPoints(p.rubric, cx, cy, r);
+  return `
+  <svg viewBox="0 0 340 320" width="100%" style="max-width:380px;display:block;margin:0 auto;overflow:visible;">
+    ${radarRings(cx,cy,r)}
+    ${radarAxisLines(cx,cy,r)}
+    <polygon class="radar-poly grow" points="${pts}" fill="${p.colorHex}22" stroke="${p.colorHex}" stroke-width="2.2"
+      style="transform-origin:${cx}px ${cy}px;"/>
+    ${CRITERIA.map((c,i)=>{
+      const angle = (Math.PI*2*i/CRITERIA.length) - Math.PI/2;
+      const v = p.rubric[c.key]/5;
+      const x = cx + Math.cos(angle)*r*v;
+      const y = cy + Math.sin(angle)*r*v;
+      return `<circle class="radar-dot" data-label="${c.short}: ${fmt1(p.rubric[c.key])} / 5" cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="4.5" fill="${p.colorHex}" stroke="#fff" stroke-width="1.4" style="cursor:pointer;"/>`;
+    }).join("")}
+    ${radarLabels(cx,cy,r)}
+  </svg>`;
+}
+
+/* keyframe for radar grow (injected once) */
+const styleTag = document.createElement("style");
+styleTag.innerHTML = `.radar-poly{opacity:0;transform:scale(.3);} .radar-poly.grow{animation:radarGrow .9s cubic-bezier(.34,1.56,.64,1) forwards;}
+@keyframes radarGrow{from{opacity:0;transform:scale(.3);}to{opacity:1;transform:scale(1);}}`;
+document.head.appendChild(styleTag);
+
+/* ============================= DETAIL PANELS ============================= */
+function buildDetailPanel(p){
+  const filters = [
+    {key:"all", label:"Todas"},
+    {key:"ok", label:"Cumple"},
+    {key:"warn", label:"Verificar"},
+    {key:"bad", label:"No cumple"},
+  ];
+  const iconFor = s => s==="ok"?"✔":s==="warn"?"⚠":"✘";
+  const labelFor = s => s==="ok"?"Cumple":s==="warn"?"Verificar":"No cumple";
+
+  return `
+  <section class="panel" id="panel-${p.id}">
+    <div class="wrap">
+      <div class="detail-head">
+        <div>
+          <h2>${p.name}</h2>
+          <div class="sub">${p.subtitle} — ${p.sede} · Categoría ${p.categoria} · ${p.premio}</div>
+        </div>
+        <div class="detail-score">
+          <div class="n" style="color:${p.colorHex}">${fmt1(p.total)}<span style="font-size:20px;color:var(--ink-soft);"> / 5</span></div>
+          <div class="l">Puntaje ponderado estimado</div>
+        </div>
+      </div>
+
+      <div class="grid2">
+        <div class="radar-box" style="position:relative;">
+          <h4>Rúbrica de evaluación — estimación por criterio</h4>
+          <div class="note">Pasa el cursor sobre cada vértice para ver el detalle.</div>
+          ${buildRadarSVG(p)}
+          <div class="radar-tip" id="tip-${p.id}"></div>
+        </div>
+        <div>
+          <div class="kpi-mini">
+            <div class="box"><div class="n">${countStatus(p,'ok')}</div><div class="l">Requisitos que cumplen</div></div>
+            <div class="box"><div class="n">${countStatus(p,'warn')}</div><div class="l">Por verificar</div></div>
+            <div class="box"><div class="n">${countStatus(p,'bad')}</div><div class="l">No cumplen</div></div>
+            <div class="box"><div class="n">${p.risks.length}</div><div class="l">Riesgos críticos señalados</div></div>
+          </div>
+          <div class="acctitle"><span class="dot" style="width:8px;height:8px;border-radius:50%;background:var(--red);display:inline-block;"></span>Riesgos críticos de descalificación</div>
+          <div class="risk">
+          ${p.risks.map((r,i)=>`
+            <details class="acc">
+              <summary><span class="dot"></span>${r.length>78? r.slice(0,78)+"…" : r}<span class="chevron">▸</span></summary>
+              <div class="accbody">${r}</div>
+            </details>`).join("")}
+          </div>
+        </div>
+      </div>
+
+      <div class="section-title" style="font-size:19px;margin-top:6px;">Validación frente a la convocatoria</div>
+      <p class="section-desc">Filtra por estado para revisar únicamente lo que necesitas priorizar.</p>
+      <div class="filterbar" id="filterbar-${p.id}">
+        ${filters.map(f=>`<button class="filterbtn ${f.key==='all'?'active':''}" data-filter="${f.key}">${f.label} <span class="count">${f.key==='all'?p.compliance.length:countStatus(p,f.key)}</span></button>`).join("")}
+      </div>
+      <div class="complist" id="complist-${p.id}">
+        ${p.compliance.map(c=>`
+          <div class="comprow ${c.status}" data-status="${c.status}">
+            <div class="icon">${iconFor(c.status)}</div>
+            <div class="txt"><strong>${c.item}</strong><span>${c.note}</span></div>
+            <div class="statuspill ${c.status}">${labelFor(c.status)}</div>
+          </div>`).join("")}
+      </div>
+
+      <div class="acctitle reco"><span class="dot" style="width:8px;height:8px;border-radius:50%;background:var(--navy);display:inline-block;"></span>Recomendaciones priorizadas antes de radicar</div>
+      <div class="reco">
+      ${p.recos.map(r=>`
+        <details class="acc">
+          <summary><span class="dot"></span>${r.length>78? r.slice(0,78)+"…" : r}<span class="chevron">▸</span></summary>
+          <div class="accbody">${r}</div>
+        </details>`).join("")}
+      </div>
+    </div>
+  </section>`;
+}
+
+document.getElementById("detailPanels").innerHTML = PROPOSALS.map(buildDetailPanel).join("");
+
+/* filter buttons behavior */
+PROPOSALS.forEach(p=>{
+  const bar = document.getElementById(`filterbar-${p.id}`);
+  bar.querySelectorAll(".filterbtn").forEach(btn=>{
+    btn.addEventListener("click", ()=>{
+      bar.querySelectorAll(".filterbtn").forEach(b=>b.classList.remove("active"));
+      btn.classList.add("active");
+      const f = btn.dataset.filter;
+      document.querySelectorAll(`#complist-${p.id} .comprow`).forEach(row=>{
+        row.classList.toggle("hide", f!=="all" && row.dataset.status!==f);
+      });
+    });
+  });
+});
+
+/* radar tooltip */
+PROPOSALS.forEach(p=>{
+  const panel = document.getElementById(`panel-${p.id}`);
+  const tip = document.getElementById(`tip-${p.id}`);
+  panel.querySelectorAll(".radar-dot").forEach(dot=>{
+    dot.addEventListener("mousemove", (e)=>{
+      const box = panel.querySelector(".radar-box").getBoundingClientRect();
+      tip.style.left = (e.clientX - box.left)+"px";
+      tip.style.top = (e.clientY - box.top)+"px";
+      tip.textContent = dot.dataset.label;
+      tip.style.opacity = 1;
+    });
+    dot.addEventListener("mouseleave", ()=> tip.style.opacity = 0);
+  });
+});
+
+/* ============================= COMPARATIVO TAB ============================= */
+(function renderComparativo(){
+  document.getElementById("legendSedes").innerHTML = PROPOSALS.map(p=>`
+    <div class="it"><span class="sw" style="background:${p.colorHex}"></span>${p.sede.replace('Centro Universitario ','')} — ${p.name.split(' —')[0].split(':')[0]}</div>
+  `).join("");
+
+  const el = document.getElementById("compareBlocks");
+  el.innerHTML = CRITERIA.map(c=>`
+    <div class="compare-block">
+      <div class="compare-crit"><span>${c.label}</span><span class="weight">peso ${c.weight}%</span></div>
+      <div class="compare-bars">
+        ${PROPOSALS.map(p=>`
+          <div class="compare-bar-row">
+            <div class="lbl"><span class="sw" style="background:${p.colorHex}"></span>${p.sede.replace('Centro Universitario ','')}</div>
+            <div class="compare-bar-track"><div class="compare-bar-fill" data-w="${(p.rubric[c.key]/5*100).toFixed(1)}" style="background:${p.colorHex};"></div></div>
+            <div class="val">${fmt1(p.rubric[c.key])}</div>
+          </div>`).join("")}
+      </div>
+    </div>
+  `).join("");
+})();
+
+/* animate compare bars + radar when their tab opens */
+const origActivate = activateTab;
+activateTab = function(id){
+  origActivate(id);
+  if(id==="comparativo"){
+    setTimeout(()=>{
+      document.querySelectorAll(".compare-bar-fill").forEach(b=>{
+        b.style.width = b.getAttribute("data-w")+"%";
+      });
+    }, 80);
+  }
+};
+</script>
+</body>
+</html>
